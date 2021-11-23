@@ -1,10 +1,9 @@
 import { Button, IconButton } from "@chakra-ui/button";
 import { FormControl } from "@chakra-ui/form-control";
-import { Image } from "@chakra-ui/image";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Center, Flex } from "@chakra-ui/layout";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Card from "../../components/common/Card";
 import CustomHeading from "../../components/common/Heading";
 import CustomLink from "../../components/common/Link";
