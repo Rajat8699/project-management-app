@@ -10,6 +10,7 @@ import createSagaMiddleware from "redux-saga";
 import { BrowserRouter } from "react-router-dom";
 import rootSaga from "./redux/sagas";
 import reducer from "./redux/reducers";
+import { ChakraProvider } from "@chakra-ui/react";
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducer, applyMiddleware(sagaMiddleware, logger));
 sagaMiddleware.run(rootSaga);
@@ -17,9 +18,11 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<Provider store={store}>
-				<App />
-			</Provider>
+			<ChakraProvider>
+				<Provider store={store}>
+					<App />
+				</Provider>
+			</ChakraProvider>
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById("root")
