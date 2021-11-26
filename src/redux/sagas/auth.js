@@ -1,5 +1,6 @@
 import { call, put, takeLatest, all } from "redux-saga/effects";
-import axios from "../../utils/axiosInterceptors";
+import axiosInstance from "../../utils/axiosInterceptors";
+import axios from "axios";
 import {
 	LOGIN,
 	LOGIN_FAILED,
@@ -9,9 +10,10 @@ import {
 	REGISTER_SUCCESS,
 } from "../types";
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL;
 //loginapi
 function LoginApi(action) {
-	return axios.get("https://jsonplaceholder.typicode.com/posts", action?.data);
+	return axios.get("/signin", action?.data);
 }
 function* login(action) {
 	try {
@@ -23,7 +25,7 @@ function* login(action) {
 }
 
 function RegisterApi(action) {
-	return axios.get("https://jsonplaceholder.typicode.com/posts", action?.data);
+	return axios.post(`${baseUrl}/signup`, action?.data);
 }
 function* register(action) {
 	try {

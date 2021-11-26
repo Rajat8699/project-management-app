@@ -41,7 +41,7 @@ const Signup = (props) => {
 	// }, [dispatch, handleToast, message, isSuccess, isError, role, props.history]);
 
 	const inputChange = (e) => {
-		setData({ ...data, [e.name]: e.value });
+		setData({ ...data, [e.target.name]: e.target.value });
 	};
 
 	// const validate = (data) => {
@@ -69,6 +69,7 @@ const Signup = (props) => {
 
 	const loginClick = (e) => {
 		e.preventDefault();
+		dispatch({ type: "REGISTER", data: data });
 		// const err_resp = validate(data) || {};
 		// if (Object.keys(err_resp).length === 0) {
 		// 	dispatch(loginLoading());
@@ -196,7 +197,7 @@ const Signup = (props) => {
 								</FormControl>
 								<FormControl mt="24px">
 									<Button type="submit" w="full" h="36px" colorScheme="blue">
-										Log in
+										Sign up
 									</Button>
 								</FormControl>
 							</form>

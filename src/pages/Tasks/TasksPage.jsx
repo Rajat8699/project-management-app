@@ -1,10 +1,32 @@
 import { Button } from "@chakra-ui/button";
 import { Box, Center, Flex, Heading } from "@chakra-ui/layout";
-import React from "react";
+import React, { useState } from "react";
 import Card from "../../components/common/Card";
 import CustomTable from "../../components/common/Table";
+import AddStatusModal from "../../components/modals/AddStatusModal";
 
 const TasksPage = (props) => {
+	console.log(props, "propssss");
+
+	const ActionComponent = (props) => {
+		const [statusModal, setStatusModal] = useState(false);
+		return (
+			<>
+				<Button
+					colorScheme="purple"
+					onClick={() => setStatusModal(true)}
+					size="sm"
+				>
+					Add status
+				</Button>
+				<AddStatusModal
+					id={3}
+					isOpen={statusModal}
+					onClose={() => setStatusModal(false)}
+				/>
+			</>
+		);
+	};
 	const taskColumns = [
 		{ Header: "Task", accessor: "task" },
 		{ Header: "Description", accessor: "Description" },
@@ -23,11 +45,7 @@ const TasksPage = (props) => {
 			from_date: "2020-01-01",
 			to_date: "2020-01-01",
 			status: "In Progress",
-			actions: (
-				<Button colorScheme="purple" size="sm">
-					Add status
-				</Button>
-			),
+			actions: <ActionComponent />,
 		},
 	];
 	return (
