@@ -25,7 +25,8 @@ function* login(action) {
 }
 
 function RegisterApi(action) {
-	return axios.post(`${baseUrl}/signup`, action?.data);
+	console.log(process.env.REACT_APP_API_BASE_URL, "eeennnnvvv");
+	return axiosInstance.post("signup", action?.data);
 }
 function* register(action) {
 	try {
