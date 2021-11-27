@@ -10,10 +10,9 @@ import {
 	REGISTER_SUCCESS,
 } from "../types";
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL;
 //loginapi
 function LoginApi(action) {
-	return axios.get("/signin", action?.data);
+	return axiosInstance.post("signin", action?.data);
 }
 function* login(action) {
 	try {

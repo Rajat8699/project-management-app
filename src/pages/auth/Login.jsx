@@ -8,6 +8,7 @@ import Card from "../../components/common/Card";
 import CustomHeading from "../../components/common/Heading";
 import CustomLink from "../../components/common/Link";
 import CustomText from "../../components/common/Text";
+import { login } from "../../redux/actions/auth";
 import { pxToEm } from "../../utils/commonMethods";
 
 const Login = (props) => {
@@ -41,7 +42,7 @@ const Login = (props) => {
 	// }, [dispatch, handleToast, message, isSuccess, isError, role, props.history]);
 
 	const inputChange = (e) => {
-		setData({ ...data, [e.name]: e.value });
+		setData({ ...data, [e.target.name]: e.target.value });
 	};
 
 	// const validate = (data) => {
@@ -69,6 +70,7 @@ const Login = (props) => {
 
 	const loginClick = (e) => {
 		e.preventDefault();
+		dispatch(login(data));
 		// const err_resp = validate(data) || {};
 		// if (Object.keys(err_resp).length === 0) {
 		// 	dispatch(loginLoading());

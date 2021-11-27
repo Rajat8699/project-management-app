@@ -3,7 +3,7 @@ import axios from "axios";
 const axiosInstance = axios.create({
 	baseURL: process.env.REACT_APP_API_BASE_URL,
 });
-axiosInstance.defaults.headers.common["Authorization"] = "Auth toker";
+// axiosInstance.defaults.headers.common["Authorization"] = "Auth token";
 
 // axiosInstance.interceptors.request.use(
 //     request=>{
