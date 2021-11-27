@@ -1,12 +1,15 @@
 import { Button } from "@chakra-ui/button";
 import { Box, Center, Flex, Heading } from "@chakra-ui/layout";
 import React, { useState } from "react";
+import { useLocation } from "react-router";
 import Card from "../../components/common/Card";
 import CustomTable from "../../components/common/Table";
+import Layout from "../../components/Layout/Layout";
 import AddStatusModal from "../../components/modals/AddStatusModal";
 
 const TasksPage = (props) => {
-	console.log(props, "propssss");
+	const params = useLocation();
+	console.log(params, props, "propssss");
 
 	const ActionComponent = (props) => {
 		const [statusModal, setStatusModal] = useState(false);
@@ -49,19 +52,21 @@ const TasksPage = (props) => {
 		},
 	];
 	return (
-		<Card mt="50px">
-			<Box w="full" my="30px">
-				<Center>
-					<Heading>Tasks</Heading>
-				</Center>
-				<Flex alignItems="flex-end" justifyContent="flex-end" w="full">
-					<Button colorScheme="blue">Add Task</Button>
-				</Flex>
-				<Flex w="full" my="50px" overflow="auto">
-					<CustomTable columns={taskColumns} data={taskRows} />
-				</Flex>
-			</Box>
-		</Card>
+		<Layout>
+			<Card mt="50px">
+				<Box w="full" my="30px">
+					<Center>
+						<Heading>Tasks</Heading>
+					</Center>
+					<Flex alignItems="flex-end" justifyContent="flex-end" w="full">
+						<Button colorScheme="blue">Add Task</Button>
+					</Flex>
+					<Flex w="full" my="50px" overflow="auto">
+						<CustomTable columns={taskColumns} data={taskRows} />
+					</Flex>
+				</Box>
+			</Card>
+		</Layout>
 	);
 };
 

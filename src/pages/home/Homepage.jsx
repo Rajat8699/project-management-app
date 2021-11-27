@@ -10,6 +10,8 @@ import { getUsers } from "../../redux/actions/home";
 import { useNavigate } from "react-router-dom";
 import AddTaskModal from "../../components/modals/AddTaskModal";
 import AddStatusModal from "../../components/modals/AddStatusModal";
+import Header from "../../components/common/Header";
+import Layout from "../../components/Layout/Layout";
 const Homepage = () => {
 	const dispatch = useDispatch();
 	const usersData = useSelector((state) => state?.home?.Users?.data);
@@ -33,7 +35,7 @@ const Homepage = () => {
 				/>
 				<Button
 					colorScheme="green"
-					onClick={() => navigate({ pathname: "/tasks", state: "hello" })}
+					onClick={() => navigate("/tasks", { state: { id: "hello" } })}
 				>
 					View tasks
 				</Button>
@@ -98,30 +100,28 @@ const Homepage = () => {
 	];
 
 	return (
-		<Box w="full" my="30px">
-			<Center>
-				<Heading>My Projects</Heading>
-			</Center>
-			<Flex alignItems="flex-end" justifyContent="flex-end" w="full">
-				<Button colorScheme="blue" onClick={() => setOpen(true)} size="sm">
-					Add Project
-				</Button>
-				<AddProjectModal isOpen={isOpen} onClose={() => setOpen(false)} />
-			</Flex>
-			<Card my="30px">
-				<Flex w="full" my="50px" overflow="auto">
+		<Layout>
+			<Box w="full" my="30px">
+				<Center>
+					<Heading>My Projects</Heading>
+				</Center>
+				<Flex alignItems="flex-end" justifyContent="flex-end" w="full" p="20px">
+					<Button colorScheme="blue" onClick={() => setOpen(true)} size="sm">
+						Add Project
+					</Button>
+					<AddProjectModal isOpen={isOpen} onClose={() => setOpen(false)} />
+				</Flex>
+				<Flex w="full" my="50px" overflow="scroll">
 					<CustomTable columns={projectColumns} data={projectRows} />
 				</Flex>
-			</Card>
-			<Center mt="50px">
-				<Heading>Tasks assigned to me</Heading>
-			</Center>
-			<Card my="30px">
-				<Flex w="full" my="30px" overflow="auto">
+				<Center mt="50px">
+					<Heading>Tasks assigned to me</Heading>
+				</Center>
+				<Flex w="full" my="30px" overflow="scroll">
 					<CustomTable columns={taskColumns} data={taskRows} />
 				</Flex>
-			</Card>
-		</Box>
+			</Box>
+		</Layout>
 	);
 };
 
