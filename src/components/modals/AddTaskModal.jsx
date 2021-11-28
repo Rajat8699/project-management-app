@@ -35,7 +35,12 @@ const AddTaskModal = (props) => {
 			setMessage("Task created successfully");
 			dispatch(getAllProjects());
 			dispatch(emptyReducer());
-		} else {
+		}
+		if (
+			taskCreate?.status &&
+			taskCreate?.status !== 201 &&
+			taskCreate?.success === false
+		) {
 			setMessage("Something went wrong");
 		}
 	}, [taskCreate, emptyReducer]);
@@ -86,7 +91,15 @@ const AddTaskModal = (props) => {
 			},
 			data
 		);
-		setError({ ...error, work_hour: errors.work_hour });
+		setError({
+			...error,
+			name: errors.name,
+			description: errors.description,
+			start_time: errors.start_time,
+			end_time: errors.end_time,
+			assign_to: errors.assign_to,
+			cost: errors.cost,
+		});
 		return errors;
 	};
 
