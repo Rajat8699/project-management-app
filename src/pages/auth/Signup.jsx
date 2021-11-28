@@ -1,15 +1,15 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button, IconButton } from "@chakra-ui/button";
 import { FormControl } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Center, Flex } from "@chakra-ui/layout";
-import { useDispatch,useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/common/Card";
 import { pxToEm } from "../../utils/commonMethods";
 import CustomLink from "../../components/common/Link";
 import CustomText from "../../components/common/Text";
 import CustomHeading from "../../components/common/Heading";
-import { signup } from "../../redux/actions/auth";
+import { logout, signup } from "../../redux/actions/auth";
 import { useNavigate } from "react-router";
 import { useToast } from "@chakra-ui/react";
 import microValidator from "micro-validator";
@@ -19,16 +19,19 @@ const Signup = (props) => {
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch();
 	const toast = useToast();
-	const  {data:registerResponse} = useSelector((state) => state?.auth?.Register);
+	const { data: registerResponse } = useSelector(
+		(state) => state?.auth?.Register
+	);
 	const navigate = useNavigate();
-	const [data, setData] = useState({ name:"",email: "", password: "" });
-	const [error, setError] = useState({name:"", email: "", password: "" });
+	const [data, setData] = useState({ name: "", email: "", password: "" });
+	const [error, setError] = useState({ name: "", email: "", password: "" });
 	const inputChange = (e) => {
 		setData({ ...data, [e.target.name]: e.target.value });
 	};
 	useEffect(() => {
 		if (registerResponse?.success) {
 			navigate("/");
+			dispatch(logout());
 		}
 		if (registerResponse && registerResponse?.status !== 201) {
 			toast({
@@ -47,12 +50,12 @@ const Signup = (props) => {
 						errorMsg: `Enter a valid email`,
 					},
 				},
-					name: {
-						required: {
-							errorMsg: `Name is required`,
-						},
-					},	
-			
+				name: {
+					required: {
+						errorMsg: `Name is required`,
+					},
+				},
+
 				password: {
 					required: {
 						errorMsg: `Password is required`,
@@ -61,7 +64,12 @@ const Signup = (props) => {
 			},
 			data
 		);
-		setError({ ...error,name:errors.name, email: errors.email, password: errors.password });
+		setError({
+			...error,
+			name: errors.name,
+			email: errors.email,
+			password: errors.password,
+		});
 		return errors;
 	};
 	const loginClick = (e) => {

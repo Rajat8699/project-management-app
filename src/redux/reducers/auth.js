@@ -5,7 +5,7 @@ import {
 	LOGOUT_SUCCESS,
 	REGISTER_SUCCESS,
 	REGISTER_FAILED,
-	RESET
+	RESET,
 } from "../types";
 
 const initialState = {
@@ -19,7 +19,7 @@ const auth = (state = initialState, action) => {
 			return {
 				...state,
 				Login: action.data,
-				Logout:[]
+				Logout: [],
 			};
 		case LOGIN_FAILED:
 			return {
@@ -38,20 +38,20 @@ const auth = (state = initialState, action) => {
 			};
 		case LOGOUT_SUCCESS:
 			localStorage.clear();
-            console.log(initialState,"initialState===")
-            return {
-                Login:[],
-				Register:[],
-				Logout:action.data
-
-            }
-			// return {
-			// 	...initialState,
-			// 	Logout: action.data
-			// };
+			console.log(initialState, "initialState===");
+			return {
+				Login: [],
+				Register: [],
+				Logout: action.data,
+			};
+		// return {
+		// 	...initialState,
+		// 	Logout: action.data
+		// };
 		case LOGOUT_FAILED:
 			return {
 				...state,
+				Register: [],
 				Logout: action.error,
 			};
 		case RESET:
