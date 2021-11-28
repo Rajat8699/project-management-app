@@ -16,17 +16,17 @@ function App() {
 				<Route
 					path="/home"
 					element={
-						// <ProtectedRoute>
-						<Homepage />
-						// </ProtectedRoute>
+						<ProtectedRoute>
+							<Homepage />
+						</ProtectedRoute>
 					}
 				/>
 				<Route
 					path="/tasks"
 					element={
-						// <ProtectedRoute>
-						<TasksPage />
-						// </ProtectedRoute>
+						<ProtectedRoute>
+							<TasksPage />
+						</ProtectedRoute>
 					}
 				/>
 			</Routes>
