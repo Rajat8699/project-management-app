@@ -5,7 +5,11 @@ import { Textarea } from "@chakra-ui/textarea";
 import { useToast } from "@chakra-ui/toast";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject, getAllProjects } from "../../redux/actions/home";
+import {
+	createProject,
+	emptyHomeReducer,
+	getAllProjects,
+} from "../../redux/actions/home";
 import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 import microValidator from "micro-validator";
@@ -32,6 +36,7 @@ const AddProjectModal = (props) => {
 			});
 
 			dispatch(getAllProjects());
+			dispatch(emptyHomeReducer());
 			onClose();
 		}
 	}, [dispatch, projectData?.status, projectData?.success]);

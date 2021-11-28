@@ -55,6 +55,7 @@ const home = (state = initialState, action) => {
 			return {
 				...state,
 				statusAdd: [],
+				// Project: [],
 			};
 		default:
 			return state;
