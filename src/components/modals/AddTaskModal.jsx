@@ -12,6 +12,7 @@ import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 import moment from "moment";
 import { getAllProjects } from "../../redux/actions/home";
+import { Alert, AlertIcon } from "@chakra-ui/alert";
 const AddTaskModal = (props) => {
 	const { isOpen, onClose, id } = props;
 	const dispatch = useDispatch();
@@ -19,18 +20,16 @@ const AddTaskModal = (props) => {
 	const taskCreate = useSelector((state) => state?.task?.Task?.data);
 
 	const toast = useToast();
+	const [message, setMessage] = useState("");
 	useEffect(() => {
 		if (taskCreate?.status === 201 && taskCreate?.success) {
-			toast({
-				title: "Task created successfully",
-				status: "success",
-				isClosable: true,
-			});
+			setMessage("Task created successfully");
 			dispatch(getAllProjects());
 			dispatch(emptyReducer());
-			onClose();
+		} else {
+			setMessage("Something went wrong");
 		}
-	}, [taskCreate]);
+	}, [taskCreate, emptyReducer]);
 
 	const [data, setData] = useState({
 		projectid: id,
@@ -105,6 +104,18 @@ const AddTaskModal = (props) => {
 							<Input name="cost" onChange={inputChange} type="number" />
 						</InputGroup>
 					</VStack>
+					{message === "Task created successfully" ? (
+						<Alert status="success">
+							<AlertIcon />
+							{message}
+						</Alert>
+					) : message === "Something went wrong" ? (
+						<Alert status="error">
+							<AlertIcon />
+							{message}
+						</Alert>
+					) : null}
+
 					<Button colorScheme="blue" type="submit" size="sm">
 						Add task
 					</Button>
