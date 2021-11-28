@@ -106,7 +106,7 @@ const AddStatusModal = (props) => {
 						<CustomText>Status</CustomText>
 						<Select
 							placeholder="Select option"
-							value={task?.status || data?.status}
+							defaultValue={task?.status || data?.status}
 							name="status"
 							onChange={inputChange}
 						>
