@@ -4,9 +4,9 @@ import {
 	CREATE_PROJECT_SUCCESS,
 	CREATE_PROJECT,
 	CREATE_PROJECT_FAILED,
-	GET_PROJECT,
-	GET_PROJECT_FAILED,
-	GET_TASK_SUCCESS
+	GET_ALL_PROJECTS,
+	GET_ALL_PROJECTS_FAILED,
+	GET_ALL_PROJECTS_SUCCESS,
 } from "../types";
 
 //create project api
@@ -28,14 +28,13 @@ function getProjectApi(action) {
 function* getProject(action) {
 	try {
 		const resp = yield call(getProjectApi, action);
-		yield put({ type: GET_TASK_SUCCESS, data: resp });
+		yield put({ type: GET_ALL_PROJECTS_SUCCESS, data: resp });
 	} catch (resp) {
-		yield put({ type: GET_PROJECT_FAILED, error: resp });
+		yield put({ type: GET_ALL_PROJECTS_FAILED, error: resp });
 	}
 }
 function* home() {
 	yield all([takeLatest(CREATE_PROJECT, createProject)]);
-	yield all([takeLatest(GET_PROJECT, getProject)]);
-
+	yield all([takeLatest(GET_ALL_PROJECTS, getProject)]);
 }
 export default home;

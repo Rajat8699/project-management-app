@@ -1,8 +1,15 @@
-import { CREATE_TASK_FAILED, CREATE_TASK_SUCCESS,GET_TASK_FAILED,GET_TASK_SUCCESS } from "../types";
+import {
+	CREATE_TASK_FAILED,
+	CREATE_TASK_SUCCESS,
+	GET_TASK_FAILED,
+	GET_TASK_SUCCESS,
+	GET_USER_FAILED,
+	GET_USER_SUCCESS,
+} from "../types";
 
 const initialState = {
 	Task: [],
-    TaskList:[]
+	Users: [],
 };
 const task = (state = initialState, action) => {
 	switch (action.type) {
@@ -16,15 +23,15 @@ const task = (state = initialState, action) => {
 				...state,
 				Task: action.error,
 			};
-            case GET_TASK_SUCCESS:
+		case GET_USER_SUCCESS:
 			return {
 				...state,
-				TaskList: action.data,
+				Users: action.data,
 			};
-		case GET_TASK_FAILED:
+		case GET_USER_FAILED:
 			return {
 				...state,
-				TaskList: action.error,
+				Users: action.error,
 			};
 		default:
 			return state;

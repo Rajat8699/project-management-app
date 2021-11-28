@@ -1,4 +1,13 @@
-import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
+import {
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	chakra,
+	Center,
+} from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { useTable, useSortBy } from "react-table";
 
@@ -7,7 +16,7 @@ const CustomTable = (props) => {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
 		useTable({ columns, data }, useSortBy);
 	return (
-		<Table {...getTableProps()}>
+		<Table {...getTableProps()} variant="stripped" colorScheme="teal">
 			<Thead bg="gray.300">
 				{headerGroups.map((headerGroup) => (
 					<Tr {...headerGroup.getHeaderGroupProps()}>
@@ -32,18 +41,29 @@ const CustomTable = (props) => {
 				))}
 			</Thead>
 			<Tbody {...getTableBodyProps()}>
-				{rows.map((row) => {
-					prepareRow(row);
-					return (
-						<Tr {...row.getRowProps()}>
-							{row.cells.map((cell) => (
-								<Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-									{cell.render("Cell")}
-								</Td>
-							))}
-						</Tr>
-					);
-				})}
+				{rows.length > 0 ? (
+					rows.map((row) => {
+						prepareRow(row);
+						return (
+							<Tr {...row.getRowProps()}>
+								{row.cells.map((cell) => (
+									<Td
+										{...cell.getCellProps()}
+										isNumeric={cell.column.isNumeric}
+									>
+										{cell.render("Cell")}
+									</Td>
+								))}
+							</Tr>
+						);
+					})
+				) : (
+					<Tr>
+						<Td colSpan={columns?.length} textAlign="center">
+							No Data Found
+						</Td>
+					</Tr>
+				)}
 			</Tbody>
 		</Table>
 	);
