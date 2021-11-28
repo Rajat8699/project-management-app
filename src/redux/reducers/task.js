@@ -10,6 +10,7 @@ import {
 const initialState = {
 	Task: [],
 	Users: [],
+	taskList: [],
 };
 const task = (state = initialState, action) => {
 	switch (action.type) {
@@ -32,6 +33,16 @@ const task = (state = initialState, action) => {
 			return {
 				...state,
 				Users: action.error,
+			};
+		case GET_TASK_SUCCESS:
+			return {
+				...state,
+				taskList: action.data,
+			};
+		case GET_TASK_FAILED:
+			return {
+				...state,
+				taskList: action.error,
 			};
 		default:
 			return state;

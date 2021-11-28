@@ -5,7 +5,7 @@ import { Textarea } from "@chakra-ui/textarea";
 import { useToast } from "@chakra-ui/toast";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject } from "../../redux/actions/home";
+import { createProject, getAllProjects } from "../../redux/actions/home";
 import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 
@@ -26,9 +26,11 @@ const AddProjectModal = (props) => {
 				status: "success",
 				isClosable: true,
 			});
+
+			dispatch(getAllProjects());
 			onClose();
 		}
-	}, [projectData?.status, projectData?.success]);
+	}, [dispatch, projectData?.status, projectData?.success]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -47,7 +49,7 @@ const AddProjectModal = (props) => {
 						<CustomText>Description</CustomText>
 						<Textarea name="description" onChange={(e) => inputChange(e)} />
 					</VStack>
-					<Button colorScheme="blue" type="submit">
+					<Button colorScheme="blue" type="submit" size="sm">
 						Add
 					</Button>
 				</VStack>
