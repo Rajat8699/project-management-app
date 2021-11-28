@@ -4,10 +4,10 @@ import { VStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
 import { useToast } from "@chakra-ui/toast";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { createTask, getUsers } from "../../redux/actions/task";
+import { createTask, emptyReducer, getUsers } from "../../redux/actions/task";
 import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 import moment from "moment";
@@ -27,9 +27,10 @@ const AddTaskModal = (props) => {
 				isClosable: true,
 			});
 			dispatch(getAllProjects());
+			dispatch(emptyReducer());
 			onClose();
 		}
-	}, [dispatch]);
+	}, [taskCreate]);
 
 	const [data, setData] = useState({
 		projectid: id,
@@ -113,4 +114,4 @@ const AddTaskModal = (props) => {
 	);
 };
 
-export default AddTaskModal;
+export default memo(AddTaskModal);

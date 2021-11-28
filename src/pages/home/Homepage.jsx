@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from "@chakra-ui/button";
 import { Box, Center, Flex, Heading } from "@chakra-ui/layout";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Card from "../../components/common/Card";
@@ -103,7 +103,7 @@ const Homepage = () => {
 					to_date: moment(task?.end_time).format("YYYY/M/DD"),
 					status: task?.status,
 					total_hours: hours?.reduce((a, b) => a + b, 0),
-					actions: <AddStatus id={task?._id} task={task} />,
+					actions: <AddStatus id={task?._id} task={task} key={task?._id} />,
 				};
 			});
 		} else {
@@ -174,4 +174,4 @@ const Homepage = () => {
 	);
 };
 
-export default Homepage;
+export default memo(Homepage);

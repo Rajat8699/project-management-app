@@ -1,4 +1,4 @@
-import { CREATE_TASK, GET_TASK, GET_USER } from "../types";
+import { CREATE_TASK, EMPTY_REDUCER, GET_TASK, GET_USER } from "../types";
 
 export const createTask = (data) => (
 	console.log(data, "ffffffffffffffffffffffffffff"),
@@ -15,4 +15,8 @@ export const getTask = (data) => ({
 
 export const getUsers = () => ({
 	type: GET_USER,
+});
+
+export const emptyReducer = () => ({
+	type: EMPTY_REDUCER,
 });

@@ -1,6 +1,8 @@
 import {
 	CREATE_TASK_FAILED,
 	CREATE_TASK_SUCCESS,
+	EMPTY_REDUCER_FAILED,
+	EMPTY_REDUCER_SUCCESS,
 	GET_TASK_FAILED,
 	GET_TASK_SUCCESS,
 	GET_USER_FAILED,
@@ -44,6 +46,10 @@ const task = (state = initialState, action) => {
 				...state,
 				taskList: action.error,
 			};
+		case EMPTY_REDUCER_FAILED:
+			return { ...state, Task: [] };
+		case EMPTY_REDUCER_SUCCESS:
+			return { ...state, Task: [] };
 		default:
 			return state;
 	}
