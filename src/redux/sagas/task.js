@@ -26,7 +26,7 @@ function* createTask(action) {
 }
 //get user assign  project api
 function getTaskApi(action) {
-	return axiosInstance.get("users/user-assign-project");
+	return axiosInstance.post("users/user-assign-project", action?.payload);
 }
 function* getTask(action) {
 	try {

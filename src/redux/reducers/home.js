@@ -1,4 +1,6 @@
 import {
+	ADD_STATUS_FAILED,
+	ADD_STATUS_SUCCESS,
 	CREATE_PROJECT_FAILED,
 	CREATE_PROJECT_SUCCESS,
 	GET_ALL_PROJECTS_FAILED,
@@ -8,6 +10,7 @@ import {
 const initialState = {
 	Project: [],
 	projectsList: [],
+	statusAdd: [],
 };
 const home = (state = initialState, action) => {
 	switch (action.type) {
@@ -30,6 +33,16 @@ const home = (state = initialState, action) => {
 			return {
 				...state,
 				projectsList: action.error,
+			};
+		case ADD_STATUS_SUCCESS:
+			return {
+				...state,
+				statusAdd: action.data,
+			};
+		case ADD_STATUS_FAILED:
+			return {
+				...state,
+				statusAdd: action.error,
 			};
 		default:
 			return state;

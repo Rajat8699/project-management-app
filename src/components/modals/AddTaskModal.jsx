@@ -10,13 +10,13 @@ import { useDispatch } from "react-redux";
 import { createTask, getUsers } from "../../redux/actions/task";
 import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
-
+import moment from "moment";
+import { getAllProjects } from "../../redux/actions/home";
 const AddTaskModal = (props) => {
 	const { isOpen, onClose, id } = props;
 	const dispatch = useDispatch();
 	const users = useSelector((state) => state?.task?.Users?.data?.data);
 	const taskCreate = useSelector((state) => state?.task?.Task?.data);
-	console.log(taskCreate, "taskCreate");
 
 	const toast = useToast();
 	useEffect(() => {
@@ -26,9 +26,10 @@ const AddTaskModal = (props) => {
 				status: "success",
 				isClosable: true,
 			});
+			dispatch(getAllProjects());
 			onClose();
 		}
-	}, [taskCreate?.status, taskCreate?.success]);
+	}, [dispatch]);
 
 	const [data, setData] = useState({
 		projectid: id,
@@ -36,16 +37,25 @@ const AddTaskModal = (props) => {
 		description: "",
 		start_time: "",
 		end_time: "",
-		assigned_to: "",
+		assign_to: "",
 		cost: "",
 	});
 	const inputChange = (e) => {
-		setData({ ...data, [e.target.name]: e.target.value });
+		console.log(e.target.name, e.target.value);
+		setData({
+			...data,
+			[e.target.name]:
+				e.target.name === "start_time"
+					? moment(e.target.value).utc().format()
+					: e.target.name === "end_time"
+					? moment(e.target.value).utc().format()
+					: e.target.value,
+		});
 	};
 
 	useEffect(() => {
 		dispatch(getUsers());
-	}, [dispatch]);
+	}, []);
 
 	const handleTaskSubmit = (e) => {
 		e.preventDefault();
@@ -94,7 +104,7 @@ const AddTaskModal = (props) => {
 							<Input name="cost" onChange={inputChange} type="number" />
 						</InputGroup>
 					</VStack>
-					<Button colorScheme="blue" type="submit">
+					<Button colorScheme="blue" type="submit" size="sm">
 						Add task
 					</Button>
 				</VStack>
