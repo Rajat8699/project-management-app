@@ -6,10 +6,12 @@ import Card from "../../components/common/Card";
 import CustomTable from "../../components/common/Table";
 import Layout from "../../components/Layout/Layout";
 import AddStatusModal from "../../components/modals/AddStatusModal";
+import moment from "moment";
 
 const TasksPage = (props) => {
 	const params = useLocation();
 	console.log(params, props, "propssss");
+	const projectsData = params?.state?.task?.task;
 
 	const ActionComponent = (props) => {
 		const [statusModal, setStatusModal] = useState(false);
@@ -51,6 +53,28 @@ const TasksPage = (props) => {
 			actions: <ActionComponent />,
 		},
 	];
+
+	const projectRows = () => {
+		if (Array?.isArray(projectsData) && projectsData.length > 0) {
+			return (projectsData || []).map((project) => {
+				return {
+					task: project?.title,
+					Description: project?.description,
+					assigned_to: project.user[0].name,
+					from_date: moment(project?.start_time).format("YYYY/M/DD"),
+					to_date:moment(project?.end_time).format("YYYY/M/DD"),
+					status: project?.status,
+					actions: <ActionComponent />,
+				};
+			});
+		} else {
+			return [];
+		}
+	};
+
+
+
+
 	return (
 		<Layout>
 			<Card mt="50px">
@@ -58,11 +82,11 @@ const TasksPage = (props) => {
 					<Center>
 						<Heading>Tasks</Heading>
 					</Center>
-					<Flex alignItems="flex-end" justifyContent="flex-end" w="full">
+					{/* <Flex alignItems="flex-end" justifyContent="flex-end" w="full">
 						<Button colorScheme="blue">Add Task</Button>
-					</Flex>
+					</Flex> */}
 					<Flex w="full" my="50px" overflow="auto">
-						<CustomTable columns={taskColumns} data={taskRows} />
+						<CustomTable columns={taskColumns} data={projectRows()} />
 					</Flex>
 				</Box>
 			</Card>

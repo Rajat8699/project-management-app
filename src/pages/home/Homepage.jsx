@@ -60,11 +60,11 @@ const Homepage = () => {
 				<AddTaskModal
 					isOpen={taskModal}
 					onClose={() => setTaskModal(false)}
-					id={id}
+					id={id._id}
 				/>
 				<Button
 					colorScheme="green"
-					onClick={() => navigate("/tasks", { state: { id: "hello" } })}
+					onClick={() => navigate("/tasks", { state: { task:id } })}
 				>
 					View tasks
 				</Button>
@@ -80,7 +80,7 @@ const Homepage = () => {
 					project_name: project?.title,
 					description: project?.description,
 					tasks: project?.task?.length,
-					actions: <ActionComponent id={project?._id} />,
+					actions: <ActionComponent id={project} />,
 				};
 			});
 		} else {
