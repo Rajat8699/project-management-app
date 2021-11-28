@@ -103,6 +103,8 @@ const Homepage = () => {
 					to_date: moment(task?.end_time).format("YYYY/M/DD"),
 					status: task?.status,
 					total_hours: hours?.reduce((a, b) => a + b, 0),
+					total_cost : hours?.reduce((a, b) => (a + b)*task?.cost, 0),
+
 					actions: <AddStatus id={task?._id} task={task} key={task?._id} />,
 				};
 			});
@@ -135,6 +137,7 @@ const Homepage = () => {
 		{ Header: "To date", accessor: "to_date" },
 		{ Header: "Status", accessor: "status" },
 		{ Header: "Total Hours Spent", accessor: "total_hours" },
+		{ Header: "Total Cost", accessor: "total_cost" },
 		{ Header: "Actions", accessor: "actions" },
 	];
 
