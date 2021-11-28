@@ -121,7 +121,6 @@ const AddStatusModal = (props) => {
 							isInvalid={error?.work_hour?.length ? true : false}
 							name="work_hour"
 							type="number"
-							maxValue={24}
 							onChange={inputChange}
 						/>
 						{error?.work_hour?.length > 0 && (
