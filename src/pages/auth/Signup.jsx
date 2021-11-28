@@ -1,80 +1,75 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Button, IconButton } from "@chakra-ui/button";
 import { FormControl } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Center, Flex } from "@chakra-ui/layout";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
 import Card from "../../components/common/Card";
 import { pxToEm } from "../../utils/commonMethods";
 import CustomLink from "../../components/common/Link";
 import CustomText from "../../components/common/Text";
 import CustomHeading from "../../components/common/Heading";
+import { signup } from "../../redux/actions/auth";
+import { useNavigate } from "react-router";
+import { useToast } from "@chakra-ui/react";
+import microValidator from "micro-validator";
 
 const Signup = (props) => {
 	const [show, setShow] = useState(false);
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch();
-	const [data, setData] = useState({ email: "", password: "" });
-	const [error, setError] = useState({ email: "", password: "" });
-	// const { handleToast } = useCustomToast();
-	// const { isLoading, isSuccess, isError, message, role } =
-	// 	useSelector(selectLogin);
-	// useEffect(() => {
-	// 	if (isSuccess) {
-	// 		const role_based_url = {
-	// 			Admin: "/app/admin/dashboards",
-	// 			Staff: "/app/staff/dashboards",
-	// 			Manager: "/app/manager/dashboards",
-	// 		};
-	// 		props.history.push(role_based_url[role]);
-	// 		//dispatch(clearLoginState());
-	// 	}
-	// 	if (isError) {
-	// 		handleToast({
-	// 			duration: 10000,
-	// 			title: "Login",
-	// 			description: message,
-	// 			status: "error",
-	// 		});
-	// 		dispatch(clearLoginState());
-	// 	}
-	// }, [dispatch, handleToast, message, isSuccess, isError, role, props.history]);
-
+	const toast = useToast();
+	const  {data:registerResponse} = useSelector((state) => state?.auth?.Register);
+	const navigate = useNavigate();
+	const [data, setData] = useState({ name:"",email: "", password: "" });
+	const [error, setError] = useState({name:"", email: "", password: "" });
 	const inputChange = (e) => {
 		setData({ ...data, [e.target.name]: e.target.value });
 	};
+	useEffect(() => {
+		if (registerResponse?.success) {
+			navigate("/");
+		}
+		if (registerResponse && registerResponse?.status !== 201) {
+			toast({
+				title: "An error occurred",
+				status: "error",
+				isClosable: true,
+			});
+		}
+	}, [dispatch, registerResponse]);
 
-	// const validate = (data) => {
-	// 	const errors = microValidator.validate(
-	// 		{
-	// 			email: {
-	// 				// required: {
-	// 				//   errorMsg: `Email is required`,
-	// 				// },
-	// 				email: {
-	// 					errorMsg: `Enter a valid email`,
-	// 				},
-	// 			},
-	// 			password: {
-	// 				required: {
-	// 					errorMsg: `Password is required`,
-	// 				},
-	// 			},
-	// 		},
-	// 		data
-	// 	);
-	// 	setError({ ...error, email: errors.email, password: errors.password });
-	// 	return errors;
-	// };
-
+	const validate = (data) => {
+		const errors = microValidator.validate(
+			{
+				email: {
+					email: {
+						errorMsg: `Enter a valid email`,
+					},
+				},
+					name: {
+						required: {
+							errorMsg: `Name is required`,
+						},
+					},	
+			
+				password: {
+					required: {
+						errorMsg: `Password is required`,
+					},
+				},
+			},
+			data
+		);
+		setError({ ...error,name:errors.name, email: errors.email, password: errors.password });
+		return errors;
+	};
 	const loginClick = (e) => {
 		e.preventDefault();
-		dispatch({ type: "REGISTER", data: data });
-		// const err_resp = validate(data) || {};
-		// if (Object.keys(err_resp).length === 0) {
-		// 	dispatch(loginLoading());
-		// 	dispatch(getLoginData(data));
-		// }
+		const err_resp = validate(data) || {};
+		if (Object.keys(err_resp).length === 0) {
+			dispatch(signup(data));
+		}
 	};
 	return (
 		<Box

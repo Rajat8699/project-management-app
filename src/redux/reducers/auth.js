@@ -27,7 +27,7 @@ const auth = (state = initialState, action) => {
 		case REGISTER_SUCCESS:
 			return {
 				...state,
-				Register: action.error,
+				Register: action.data,
 			};
 		case REGISTER_FAILED:
 			return {
