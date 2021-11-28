@@ -14,7 +14,7 @@ import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 import microValidator from "micro-validator";
 import { pxToEm } from "../../utils/commonMethods";
-import { Alert } from "@chakra-ui/alert";
+import { Alert, AlertIcon } from "@chakra-ui/alert";
 
 const AddProjectModal = (props) => {
 	const { isOpen, onClose } = props;
