@@ -64,7 +64,7 @@ const Homepage = () => {
 				/>
 				<Button
 					colorScheme="green"
-					onClick={() => navigate("/tasks", { state: { task:id } })}
+					onClick={() => navigate("/tasks", { state: { task: id } })}
 				>
 					View tasks
 				</Button>
@@ -80,6 +80,8 @@ const Homepage = () => {
 					project_name: project?.title,
 					description: project?.description,
 					tasks: project?.task?.length,
+					completed_tasks: project?.complete,
+					pending_tasks: project?.pending,
 					actions: <ActionComponent id={project} />,
 				};
 			});
@@ -103,7 +105,7 @@ const Homepage = () => {
 					to_date: moment(task?.end_time).format("YYYY/M/DD"),
 					status: task?.status,
 					total_hours: hours?.reduce((a, b) => a + b, 0),
-					total_cost : hours?.reduce((a, b) => (a + b)*task?.cost, 0),
+					total_cost: hours?.reduce((a, b) => (a + b) * task?.cost, 0),
 
 					actions: <AddStatus id={task?._id} task={task} key={task?._id} />,
 				};
@@ -116,19 +118,11 @@ const Homepage = () => {
 	const projectColumns = [
 		{ Header: "Project Name", accessor: "project_name" },
 		{ Header: "Description", accessor: "description" },
-		{ Header: "Tasks", accessor: "tasks" },
+		{ Header: "Total Tasks", accessor: "tasks" },
+		{ Header: "Completed Tasks", accessor: "completed_tasks" },
+		{ Header: "Pending Tasks", accessor: "pending_tasks" },
 		{ Header: "Actions", accessor: "actions" },
 	];
-
-	// const projectRows = [
-	// 	{
-	// 		project_name: "Project 1",
-	// 		description: "Description",
-	// 		tasks: "5",
-	// 		status: "In Progress",
-	// 		actions: <ActionComponent />,
-	// 	},
-	// ];
 
 	const taskColumns = [
 		{ Header: "Task", accessor: "task" },
@@ -140,16 +134,6 @@ const Homepage = () => {
 		{ Header: "Total Cost", accessor: "total_cost" },
 		{ Header: "Actions", accessor: "actions" },
 	];
-
-	// const taskRows = [
-	// 	{
-	// 		task: "Task 1",
-	// 		Description: "Task 1 Description",
-	// 		from_date: "2020-01-01",
-	// 		to_date: "2020-01-01",
-	// 		actions: <AddStatus />,
-	// 	},
-	// ];
 
 	return (
 		<Layout>

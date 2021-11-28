@@ -30,8 +30,8 @@ const AddProjectModal = (props) => {
 	const [resMessage, setResMessage] = useState("");
 	useEffect(() => {
 		if (projectData?.status === 201 && projectData?.success) {
-			setResMessage("Projected created successfully");
 			dispatch(getAllProjects());
+			setResMessage("Projected created successfully");
 			onClose();
 		}
 		if (
