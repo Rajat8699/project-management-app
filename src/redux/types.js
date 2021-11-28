@@ -25,3 +25,4 @@ export const GET_TASK_FAILED = "GET_TASK_FAILED";
 export const GET_PROJECT = "GET_PROJECT";
 export const GET_PROJECT_SUCCESS = "GET_PROJECT_SUCCESS";
 export const GET_PROJECT_FAILED = "GET_PROJECT_FAILED";
+export const RESET = "RESET";

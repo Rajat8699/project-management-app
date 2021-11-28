@@ -2,6 +2,7 @@ import { CREATE_TASK_FAILED, CREATE_TASK_SUCCESS,GET_TASK_FAILED,GET_TASK_SUCCES
 
 const initialState = {
 	Task: [],
+    TaskList:[]
 };
 const task = (state = initialState, action) => {
 	switch (action.type) {
@@ -18,12 +19,12 @@ const task = (state = initialState, action) => {
             case GET_TASK_SUCCESS:
 			return {
 				...state,
-				Task: action.data,
+				TaskList: action.data,
 			};
 		case GET_TASK_FAILED:
 			return {
 				...state,
-				Task: action.error,
+				TaskList: action.error,
 			};
 		default:
 			return state;

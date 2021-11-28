@@ -1,16 +1,27 @@
 import { Avatar, AvatarBadge } from "@chakra-ui/avatar";
 import { Flex } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
-import React from "react";
+import React, { useState ,useEffect} from "react";
+
 import { useNavigate } from "react-router";
 import CustomText from "./Text";
+import { useDispatch,useSelector} from "react-redux";
+import { logout } from "../../redux/actions/auth";
 
 const Header = (props) => {
 	const navigate = useNavigate();
-	const logout = () => {
-		localStorage.clear();
-		navigate("/");
+	const dispatch = useDispatch();
+	const { data: logoutResponse } = useSelector((state) => state?.auth?.Logout);
+	const log = () => {
+		dispatch(logout())
 	};
+	useEffect(() => {
+		if (logoutResponse?.success) {
+			localStorage.clear();
+			navigate("/");
+		}
+		
+	}, [logoutResponse?.success]);
 	return (
 		<Flex
 			bg="blue.300"
@@ -28,7 +39,7 @@ const Header = (props) => {
 					</Avatar>
 				</MenuButton>
 				<MenuList>
-					<MenuItem onClick={logout}>Logout</MenuItem>
+					<MenuItem onClick={log}>Logout</MenuItem>
 				</MenuList>
 			</Menu>
 		</Flex>
