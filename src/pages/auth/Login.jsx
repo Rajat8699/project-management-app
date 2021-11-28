@@ -26,6 +26,7 @@ const Login = (props) => {
 	useEffect(() => {
 		if (loginResponse?.success) {
 			localStorage.setItem("Auth-token", loginResponse?.token);
+			localStorage.setItem("isAuthenticated", true);
 			localStorage.setItem("user", loginResponse?.data);
 			setLoading(false);
 			navigate("/home");

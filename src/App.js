@@ -1,22 +1,11 @@
 import "./App.css";
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import Homepage from "./pages/home/Homepage";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import { Box, Container } from "@chakra-ui/layout";
 import TasksPage from "./pages/Tasks/TasksPage";
-import { useState } from "react";
-
-function PrivateRoute({ children }) {
-	const [isAuthenticated, setISAuthenticated] = useState(false);
-	if (
-		localStorage.getItem("Auth-token") &&
-		localStorage.getItem("Auth-token") !== undefined
-	) {
-		setISAuthenticated(true);
-	}
-	return isAuthenticated ? children : <Navigate to="/" />;
-}
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
 	return (
@@ -27,17 +16,17 @@ function App() {
 				<Route
 					path="/home"
 					element={
-						<PrivateRoute>
-							<Homepage />
-						</PrivateRoute>
+						// <ProtectedRoute>
+						<Homepage />
+						// </ProtectedRoute>
 					}
 				/>
 				<Route
 					path="/tasks"
 					element={
-						<PrivateRoute>
-							<TasksPage />
-						</PrivateRoute>
+						// <ProtectedRoute>
+						<TasksPage />
+						// </ProtectedRoute>
 					}
 				/>
 			</Routes>

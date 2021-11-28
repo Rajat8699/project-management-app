@@ -2,8 +2,9 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useToast } from "@chakra-ui/toast";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../redux/actions/home";
 import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
@@ -11,10 +12,23 @@ import CustomText from "../common/Text";
 const AddProjectModal = (props) => {
 	const { isOpen, onClose } = props;
 	const dispatch = useDispatch();
+	const { data: projectData } = useSelector((state) => state?.home?.Project);
 	const [data, setData] = useState({ name: "", description: "" });
+	const toast = useToast();
 	const inputChange = (e) => {
 		setData({ ...data, [e.target.name]: e.target.value });
 	};
+
+	useEffect(() => {
+		if (projectData?.status === 201 && projectData?.success) {
+			toast({
+				title: "Project created successfully",
+				status: "success",
+				isClosable: true,
+			});
+			onClose();
+		}
+	}, [projectData?.status, projectData?.success]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

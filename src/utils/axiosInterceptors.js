@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
 	(request) => {
-		if (!request.url?.includes("signin")) {
+		if (!request.url?.includes("signin" || "signup")) {
 			const logged_user = localStorage.getItem("Auth-token");
 			request.headers.common["Authorization"] = logged_user;
 		}
