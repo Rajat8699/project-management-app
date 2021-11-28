@@ -8,6 +8,9 @@ import {
 	REGISTER,
 	REGISTER_FAILED,
 	REGISTER_SUCCESS,
+	LOGOUT,
+	LOGOUT_FAILED,
+	LOGOUT_SUCCESS
 } from "../types";
 
 //loginapi
@@ -22,6 +25,18 @@ function* login(action) {
 		yield put({ type: LOGIN_FAILED, error: resp });
 	}
 }
+function logoutApi(action) {
+	return axiosInstance.get("users/signout");
+}
+function* logout(action) {
+	try {
+		const resp = yield call(logoutApi, action);
+		yield put({ type: LOGOUT_SUCCESS, data: resp });
+	} catch (resp) {
+		yield put({ type: LOGOUT_FAILED, error: resp });
+	}
+}
+
 
 function RegisterApi(action) {
 	return axiosInstance.post("users/signup", action?.payload);
@@ -38,5 +53,7 @@ function* register(action) {
 function* auth() {
 	yield all([takeLatest(LOGIN, login)]);
 	yield all([takeLatest(REGISTER, register)]);
+	yield all([takeLatest(LOGOUT, logout)]);
+
 }
 export default auth;
