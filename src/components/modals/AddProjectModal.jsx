@@ -3,7 +3,7 @@ import { Input } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
 import { useToast } from "@chakra-ui/toast";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createProject, getAllProjects } from "../../redux/actions/home";
 import CustomModal from "../common/Modal";
@@ -58,4 +58,4 @@ const AddProjectModal = (props) => {
 	);
 };
 
-export default AddProjectModal;
+export default memo(AddProjectModal);

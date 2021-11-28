@@ -10,6 +10,9 @@ import {
 	GET_USER_SUCCESS,
 	GET_USER,
 	GET_USER_FAILED,
+	EMPTY_REDUCER_SUCCESS,
+	EMPTY_REDUCER_FAILED,
+	EMPTY_REDUCER,
 } from "../types";
 
 //create task api
@@ -50,9 +53,18 @@ function* getUsers(action) {
 	}
 }
 
+function* emptyReducer() {
+	try {
+		yield put({ type: EMPTY_REDUCER_SUCCESS });
+	} catch (err) {
+		yield put({ type: EMPTY_REDUCER_FAILED });
+	}
+}
+
 function* task() {
 	yield all([takeLatest(CREATE_TASK, createTask)]);
 	yield all([takeLatest(GET_TASK, getTask)]);
 	yield all([takeLatest(GET_USER, getUsers)]);
+	yield all([takeLatest(EMPTY_REDUCER, emptyReducer)]);
 }
 export default task;

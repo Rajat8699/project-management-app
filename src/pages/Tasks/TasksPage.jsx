@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import { Box, Center, Flex, Heading } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useLocation } from "react-router";
 import Card from "../../components/common/Card";
 import CustomTable from "../../components/common/Table";
@@ -70,4 +70,4 @@ const TasksPage = (props) => {
 	);
 };
 
-export default TasksPage;
+export default memo(TasksPage);

@@ -4,7 +4,7 @@ import { VStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addStatus } from "../../redux/actions/home";
 import CustomModal from "../common/Modal";
@@ -92,4 +92,4 @@ const AddStatusModal = (props) => {
 	);
 };
 
-export default AddStatusModal;
+export default memo(AddStatusModal);
