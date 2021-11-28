@@ -39,7 +39,7 @@ const TasksPage = (props) => {
 		{ Header: "From date", accessor: "from_date" },
 		{ Header: "To date", accessor: "to_date" },
 		{ Header: "Status", accessor: "status" },
-		{ Header: "Actions", accessor: "actions" },
+		// { Header: "Actions", accessor: "actions" },
 	];
 
 	const taskRows = [
@@ -50,7 +50,7 @@ const TasksPage = (props) => {
 			from_date: "2020-01-01",
 			to_date: "2020-01-01",
 			status: "In Progress",
-			actions: <ActionComponent />,
+			// actions: <ActionComponent />,
 		},
 	];
 
@@ -64,7 +64,7 @@ const TasksPage = (props) => {
 					from_date: moment(project?.start_time).format("YYYY/M/DD"),
 					to_date:moment(project?.end_time).format("YYYY/M/DD"),
 					status: project?.status,
-					actions: <ActionComponent />,
+					// actions: <ActionComponent />,
 				};
 			});
 		} else {

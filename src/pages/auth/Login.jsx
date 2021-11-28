@@ -77,18 +77,7 @@ const Login = (props) => {
 			// 	dispatch(getLoginData(data));
 		}
 		if (Login?.data?.success) {
-			// 	 const encrypted_logged_data = getEncryptedData(
-			//   logged_user_detail,
-			//   'secret@123',
-			// );
-			// localStorage.setItem('logged_user_data', encrypted_logged_data);
-			// return {
-			//   ...state,
-			//   isSuccess: true,
-			//   message: 'You have logged in successfully.',
-			//   role: data?.Role?.name,
-			//   userData: data?.User,
-			// };
+			
 			localStorage.setItem("Auth-token", Login?.data?.token);
 			localStorage.setItem("user", Login?.data?.data);
 		}
