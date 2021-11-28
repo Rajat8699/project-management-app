@@ -1,6 +1,6 @@
-import { GET_USER } from "../types";
+import { CREATE_PROJECT } from "../types";
 
-export const getUsers = (data) => ({
-	type: GET_USER,
-	data: data,
+export const createProject = (data) => ({
+	type: CREATE_PROJECT,
+	payload: data,
 });

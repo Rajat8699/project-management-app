@@ -2,25 +2,40 @@ import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createProject } from "../../redux/actions/home";
 import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 
 const AddProjectModal = (props) => {
 	const { isOpen, onClose } = props;
+	const dispatch = useDispatch();
+	const [data, setData] = useState({ name: "", description: "" });
+	const inputChange = (e) => {
+		setData({ ...data, [e.target.name]: e.target.value });
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		dispatch(createProject(data));
+	};
+
 	return (
 		<CustomModal isOpen={isOpen} onClose={onClose} title="Add Project">
-			<form>
+			<form onSubmit={(e) => handleSubmit(e)}>
 				<VStack alignItems="flex-start" w="full" spacing={5}>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Name</CustomText>
-						<Input name="name" />
+						<Input name="name" onChange={(e) => inputChange(e)} />
 					</VStack>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Description</CustomText>
-						<Textarea name="description" />
+						<Textarea name="description" onChange={(e) => inputChange(e)} />
 					</VStack>
-					<Button colorScheme="blue">Add</Button>
+					<Button colorScheme="blue" type="submit">
+						Add
+					</Button>
 				</VStack>
 			</form>
 		</CustomModal>

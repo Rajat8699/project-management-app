@@ -12,7 +12,7 @@ import {
 
 //loginapi
 function LoginApi(action) {
-	return axiosInstance.post("signin", action?.data);
+	return axiosInstance.post("users/signin", action?.payload);
 }
 function* login(action) {
 	try {

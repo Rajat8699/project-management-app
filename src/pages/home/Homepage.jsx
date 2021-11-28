@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import Card from "../../components/common/Card";
 import CustomTable from "../../components/common/Table";
 import AddProjectModal from "../../components/modals/AddProjectModal";
-import { getUsers } from "../../redux/actions/home";
 import { useNavigate } from "react-router-dom";
 import AddTaskModal from "../../components/modals/AddTaskModal";
 import AddStatusModal from "../../components/modals/AddStatusModal";
@@ -14,12 +13,8 @@ import Header from "../../components/common/Header";
 import Layout from "../../components/Layout/Layout";
 const Homepage = () => {
 	const dispatch = useDispatch();
-	const usersData = useSelector((state) => state?.home?.Users?.data);
 	const navigate = useNavigate();
 	const [isOpen, setOpen] = useState(false);
-	useEffect(() => {
-		dispatch(getUsers());
-	}, [dispatch]);
 
 	const ActionComponent = (props) => {
 		const [taskModal, setTaskModal] = useState(false);

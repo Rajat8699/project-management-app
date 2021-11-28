@@ -2,9 +2,15 @@ import { Avatar, AvatarBadge } from "@chakra-ui/avatar";
 import { Flex } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import React from "react";
+import { useNavigate } from "react-router";
 import CustomText from "./Text";
 
 const Header = (props) => {
+	const navigate = useNavigate();
+	const logout = () => {
+		localStorage.clear();
+		navigate("/");
+	};
 	return (
 		<Flex
 			bg="blue.300"
@@ -22,7 +28,7 @@ const Header = (props) => {
 					</Avatar>
 				</MenuButton>
 				<MenuList>
-					<MenuItem>Logout</MenuItem>
+					<MenuItem onClick={logout}>Logout</MenuItem>
 				</MenuList>
 			</Menu>
 		</Flex>

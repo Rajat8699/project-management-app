@@ -2,21 +2,42 @@ import { Button, IconButton } from "@chakra-ui/button";
 import { FormControl } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Center, Flex } from "@chakra-ui/layout";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import Card from "../../components/common/Card";
 import CustomHeading from "../../components/common/Heading";
 import CustomLink from "../../components/common/Link";
 import CustomText from "../../components/common/Text";
 import { login } from "../../redux/actions/auth";
 import { pxToEm } from "../../utils/commonMethods";
-
+import { useToast } from "@chakra-ui/react";
+import microValidator from "micro-validator";
 const Login = (props) => {
 	const [show, setShow] = useState(false);
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch();
+	const toast = useToast();
+	const navigate = useNavigate();
+	const { data: loginResponse } = useSelector((state) => state?.auth?.Login);
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState({ email: "", password: "" });
+	const [loading, setLoading] = useState(false);
+	useEffect(() => {
+		if (loginResponse?.success) {
+			localStorage.setItem("Auth-token", loginResponse?.token);
+			localStorage.setItem("user", loginResponse?.data);
+			setLoading(false);
+			navigate("/home");
+		}
+		if (loginResponse && loginResponse?.status !== 200) {
+			toast({
+				title: "An error occurred",
+				status: "error",
+				isClosable: true,
+			});
+		}
+	}, [dispatch, loginResponse]);
 	// const { handleToast } = useCustomToast();
 	// const { isLoading, isSuccess, isError, message, role } =
 	// 	useSelector(selectLogin);
@@ -45,37 +66,54 @@ const Login = (props) => {
 		setData({ ...data, [e.target.name]: e.target.value });
 	};
 
-	// const validate = (data) => {
-	// 	const errors = microValidator.validate(
-	// 		{
-	// 			email: {
-	// 				// required: {
-	// 				//   errorMsg: `Email is required`,
-	// 				// },
-	// 				email: {
-	// 					errorMsg: `Enter a valid email`,
-	// 				},
-	// 			},
-	// 			password: {
-	// 				required: {
-	// 					errorMsg: `Password is required`,
-	// 				},
-	// 			},
-	// 		},
-	// 		data
-	// 	);
-	// 	setError({ ...error, email: errors.email, password: errors.password });
-	// 	return errors;
-	// };
+	const validate = (data) => {
+		const errors = microValidator.validate(
+			{
+				email: {
+					// required: {
+					//   errorMsg: `Email is required`,
+					// },
+					email: {
+						errorMsg: `Enter a valid email`,
+					},
+				},
+				password: {
+					required: {
+						errorMsg: `Password is required`,
+					},
+				},
+			},
+			data
+		);
+		setError({ ...error, email: errors.email, password: errors.password });
+		return errors;
+	};
 
 	const loginClick = (e) => {
 		e.preventDefault();
-		dispatch(login(data));
-		// const err_resp = validate(data) || {};
-		// if (Object.keys(err_resp).length === 0) {
-		// 	dispatch(loginLoading());
-		// 	dispatch(getLoginData(data));
-		// }
+		setLoading(true);
+		const err_resp = validate(data) || {};
+		if (Object.keys(err_resp).length === 0) {
+			// 	dispatch(loginLoading());
+			dispatch(login(data));
+			// 	dispatch(getLoginData(data));
+		}
+		if (Login?.data?.success) {
+			// 	 const encrypted_logged_data = getEncryptedData(
+			//   logged_user_detail,
+			//   'secret@123',
+			// );
+			// localStorage.setItem('logged_user_data', encrypted_logged_data);
+			// return {
+			//   ...state,
+			//   isSuccess: true,
+			//   message: 'You have logged in successfully.',
+			//   role: data?.Role?.name,
+			//   userData: data?.User,
+			// };
+			localStorage.setItem("Auth-token", Login?.data?.token);
+			localStorage.setItem("user", Login?.data?.data);
+		}
 	};
 	return (
 		<Box
@@ -128,11 +166,7 @@ const Login = (props) => {
 											onChange={(e) => inputChange(e)}
 										/>
 										{error?.email?.length > 0 && (
-											<CustomText
-												mt={pxToEm(8)}
-												color="Secondary.magenta"
-												variant="sm"
-											>
+											<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
 												{/* <WarningFill /> */}
 												&nbsp;{error?.email}
 											</CustomText>
@@ -147,31 +181,32 @@ const Login = (props) => {
 									>
 										<CustomText color="black" variant="sm" text="Password" />
 										<InputGroup>
-											<InputRightElement
-												w="22px"
-												pr={pxToEm(15)}
-												children={
-													<IconButton
-														label="show-hide"
-														onClick={handleClick}
-														icon={show ? "ShowIcon" : "HideIcon"}
-													/>
-												}
-											/>
 											<Input
+												pr="4.5rem"
 												name="password"
 												isInvalid={error?.password?.length ? true : false}
 												type={show ? "text" : "password"}
 												placeholder="Enter password"
 												onChange={(e) => inputChange(e)}
 											/>
+											<InputRightElement
+												width="3.5rem"
+												pr={pxToEm(8)}
+												children={
+													<Button
+														onClick={handleClick}
+														h="1.75rem"
+														size="sm"
+														px="5px"
+														_focus={{ boxShadow: "none" }}
+													>
+														{show ? "Hide" : "Show"}
+													</Button>
+												}
+											/>
 										</InputGroup>
 										{error?.password?.length > 0 && (
-											<CustomText
-												mt={pxToEm(8)}
-												color="Secondary.magenta"
-												variant="xm"
-											>
+											<CustomText mt={pxToEm(8)} color="red.400" variant="xm">
 												{/* <WarningFill /> */}
 												&nbsp;{error?.password}
 											</CustomText>
@@ -187,7 +222,7 @@ const Login = (props) => {
 							<Center py={`${pxToEm(14)}`} justifyContent="space-around">
 								<CustomText variant="sm" color="black">
 									Don't have an account?&nbsp;
-									<CustomLink link="/signup" color="blue">
+									<CustomLink link="/signup" color="blue" isLoading={loading}>
 										Sign up
 									</CustomLink>
 								</CustomText>

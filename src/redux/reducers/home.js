@@ -1,19 +1,19 @@
-import { GET_USER_FAILED, GET_USER_SUCCESS } from "../types";
+import { CREATE_PROJECT_FAILED, CREATE_PROJECT_SUCCESS } from "../types";
 
 const initialState = {
-	Users: [],
+	Project: [],
 };
 const home = (state = initialState, action) => {
 	switch (action.type) {
-		case GET_USER_SUCCESS:
+		case CREATE_PROJECT_SUCCESS:
 			return {
 				...state,
-				Users: action.data,
+				Project: action.data,
 			};
-		case GET_USER_FAILED:
+		case CREATE_PROJECT_FAILED:
 			return {
 				...state,
-				Users: action.error,
+				Project: action.error,
 			};
 		default:
 			return state;

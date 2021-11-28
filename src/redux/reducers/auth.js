@@ -17,12 +17,12 @@ const auth = (state = initialState, action) => {
 		case LOGIN_SUCCESS:
 			return {
 				...state,
-				LOGIN: action.data,
+				Login: action.data,
 			};
 		case LOGIN_FAILED:
 			return {
 				...state,
-				LOGIN: action.error,
+				Login: action.error,
 			};
 		case REGISTER_SUCCESS:
 			return {
