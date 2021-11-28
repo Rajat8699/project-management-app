@@ -7,16 +7,16 @@ import { Box, Container } from "@chakra-ui/layout";
 import TasksPage from "./pages/Tasks/TasksPage";
 import { useState } from "react";
 
-function PrivateRoute({ children }) {
-	const [isAuthenticated, setISAuthenticated] = useState(false);
-	if (
-		localStorage.getItem("Auth-token") &&
-		localStorage.getItem("Auth-token") !== undefined
-	) {
-		setISAuthenticated(true);
-	}
-	return isAuthenticated ? children : <Navigate to="/" />;
-}
+// function PrivateRoute({ children }) {
+// 	const [isAuthenticated, setISAuthenticated] = useState(false);
+// 	if (
+// 		localStorage.getItem("Auth-token") &&
+// 		localStorage.getItem("Auth-token") !== undefined
+// 	) {
+// 		setISAuthenticated(true);
+// 	}
+// 	return isAuthenticated ? children : <Navigate to="/" />;
+// }
 
 function App() {
 	return (
@@ -27,17 +27,17 @@ function App() {
 				<Route
 					path="/home"
 					element={
-						<PrivateRoute>
+						// <PrivateRoute>
 							<Homepage />
-						</PrivateRoute>
+					    //   </PrivateRoute> 
 					}
 				/>
 				<Route
 					path="/tasks"
 					element={
-						<PrivateRoute>
+						// <PrivateRoute>
 							<TasksPage />
-						</PrivateRoute>
+						// </PrivateRoute>
 					}
 				/>
 			</Routes>
