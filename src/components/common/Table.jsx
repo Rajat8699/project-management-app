@@ -58,9 +58,11 @@ const CustomTable = (props) => {
 						);
 					})
 				) : (
-					<Center w="full" p="20px" justifyContent="center">
-						No Data Found
-					</Center>
+					<Tr>
+						<Td colSpan={columns?.length} textAlign="center">
+							No Data Found
+						</Td>
+					</Tr>
 				)}
 			</Tbody>
 		</Table>

@@ -16,7 +16,7 @@ const Homepage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [isOpen, setOpen] = useState(false);
-	const { projects } = useSelector((state) => state?.home?.projectsList);
+	const projects = useSelector((state) => state?.home?.projectsList);
 	console.log(projects, "projex");
 
 	useEffect(() => {
@@ -24,7 +24,7 @@ const Homepage = () => {
 	}, [dispatch]);
 	const projectRows = () => {
 		const projectsData = projects?.data?.data;
-		console.log(projectsData, "projects");
+		console.log(projects, "projects");
 		if (Array?.isArray(projectsData) && projectsData.length > 0) {
 			return (projectsData || []).map((project) => {
 				return {
@@ -40,6 +40,7 @@ const Homepage = () => {
 	};
 
 	const ActionComponent = (props) => {
+		const { id } = props;
 		const [taskModal, setTaskModal] = useState(false);
 		return (
 			<ButtonGroup variant="solid" spacing={3} size="sm">
@@ -49,7 +50,7 @@ const Homepage = () => {
 				<AddTaskModal
 					isOpen={taskModal}
 					onClose={() => setTaskModal(false)}
-					id={3}
+					id={id}
 				/>
 				<Button
 					colorScheme="green"
@@ -85,7 +86,6 @@ const Homepage = () => {
 		{ Header: "Project Name", accessor: "project_name" },
 		{ Header: "Description", accessor: "description" },
 		{ Header: "Tasks", accessor: "tasks" },
-		{ Header: "Status", accessor: "status" },
 		{ Header: "Actions", accessor: "actions" },
 	];
 
