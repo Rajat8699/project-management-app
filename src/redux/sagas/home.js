@@ -11,6 +11,9 @@ import {
 	ADD_STATUS,
 	ADD_STATUS_SUCCESS,
 	ADD_STATUS_FAILED,
+	EMPTY_HOME_REDUCER_SUCCESS,
+	EMPTY_HOME_REDUCER_FAILED,
+	EMPTY_HOME_REDUCER,
 } from "../types";
 
 //create project api
@@ -49,9 +52,19 @@ function* addTaskStatus(action) {
 		yield put({ type: ADD_STATUS_FAILED, error: resp });
 	}
 }
+
+function* emptyHomeReducer() {
+	try {
+		yield put({ type: EMPTY_HOME_REDUCER_SUCCESS });
+	} catch (err) {
+		yield put({ type: EMPTY_HOME_REDUCER_FAILED });
+	}
+}
+
 function* home() {
 	yield all([takeLatest(CREATE_PROJECT, createProject)]);
 	yield all([takeLatest(GET_ALL_PROJECTS, getProject)]);
 	yield all([takeLatest(ADD_STATUS, addTaskStatus)]);
+	yield all([takeLatest(EMPTY_HOME_REDUCER, emptyHomeReducer)]);
 }
 export default home;

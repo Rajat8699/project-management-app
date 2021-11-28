@@ -13,12 +13,21 @@ import CustomText from "../common/Text";
 import moment from "moment";
 import { getAllProjects } from "../../redux/actions/home";
 import { Alert, AlertIcon } from "@chakra-ui/alert";
+import microValidator from "micro-validator";
+import { pxToEm } from "../../utils/commonMethods";
 const AddTaskModal = (props) => {
 	const { isOpen, onClose, id } = props;
 	const dispatch = useDispatch();
 	const users = useSelector((state) => state?.task?.Users?.data?.data);
 	const taskCreate = useSelector((state) => state?.task?.Task?.data);
-
+	const [error, setError] = useState({
+		name: "",
+		description: "",
+		start_time: "",
+		end_time: "",
+		assign_to: "",
+		cost: "",
+	});
 	const toast = useToast();
 	const [message, setMessage] = useState("");
 	useEffect(() => {
@@ -40,6 +49,47 @@ const AddTaskModal = (props) => {
 		assign_to: "",
 		cost: "",
 	});
+
+	const validate = (data) => {
+		const errors = microValidator.validate(
+			{
+				name: {
+					required: {
+						errorMsg: `Name is required`,
+					},
+				},
+				description: {
+					required: {
+						errorMsg: `Description is required`,
+					},
+				},
+				start_time: {
+					required: {
+						errorMsg: `Start time is required`,
+					},
+				},
+				end_time: {
+					required: {
+						errorMsg: `End time is required`,
+					},
+				},
+				assign_to: {
+					required: {
+						errorMsg: `This field is required`,
+					},
+				},
+				cost: {
+					required: {
+						errorMsg: `Cost is required`,
+					},
+				},
+			},
+			data
+		);
+		setError({ ...error, work_hour: errors.work_hour });
+		return errors;
+	};
+
 	const inputChange = (e) => {
 		console.log(e.target.name, e.target.value);
 		setData({
@@ -59,7 +109,10 @@ const AddTaskModal = (props) => {
 
 	const handleTaskSubmit = (e) => {
 		e.preventDefault();
-		dispatch(createTask(data));
+		const err_resp = validate(data) || {};
+		if (Object.keys(err_resp).length === 0) {
+			dispatch(createTask(data));
+		}
 	};
 	return (
 		<CustomModal isOpen={isOpen} onClose={onClose} title="Add Task">
@@ -67,19 +120,61 @@ const AddTaskModal = (props) => {
 				<VStack alignItems="flex-start" w="full" spacing={5}>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Name</CustomText>
-						<Input name="name" onChange={inputChange} />
+						<Input
+							name="name"
+							onChange={inputChange}
+							isInvalid={error?.name?.length ? true : false}
+						/>
+						{error?.name?.length > 0 && (
+							<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
+								{/* <WarningFill /> */}
+								&nbsp;{error?.name}
+							</CustomText>
+						)}
 					</VStack>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Description</CustomText>
-						<Textarea name="description" onChange={inputChange} />
+						<Textarea
+							name="description"
+							onChange={inputChange}
+							isInvalid={error?.description?.length ? true : false}
+						/>
+						{error?.description?.length > 0 && (
+							<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
+								{/* <WarningFill /> */}
+								&nbsp;{error?.description}
+							</CustomText>
+						)}
 					</VStack>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Start date</CustomText>
-						<Input name="start_time" type="date" onChange={inputChange} />
+						<Input
+							name="start_time"
+							type="date"
+							onChange={inputChange}
+							isInvalid={error?.start_time?.length ? true : false}
+						/>
+						{error?.start_time?.length > 0 && (
+							<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
+								{/* <WarningFill /> */}
+								&nbsp;{error?.start_time}
+							</CustomText>
+						)}
 					</VStack>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>End date</CustomText>
-						<Input name="end_time" type="date" onChange={inputChange} />
+						<Input
+							name="end_time"
+							type="date"
+							onChange={inputChange}
+							isInvalid={error?.end_time?.length ? true : false}
+						/>
+						{error?.end_time?.length > 0 && (
+							<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
+								{/* <WarningFill /> */}
+								&nbsp;{error?.end_time}
+							</CustomText>
+						)}
 					</VStack>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Assign to</CustomText>
@@ -87,6 +182,7 @@ const AddTaskModal = (props) => {
 							placeholder="Select option"
 							name="assign_to"
 							onChange={inputChange}
+							isInvalid={error?.assign_to?.length ? true : false}
 						>
 							{(users || []).map((user) => {
 								return (
@@ -96,13 +192,30 @@ const AddTaskModal = (props) => {
 								);
 							})}
 						</Select>
+						{error?.assign_to?.length > 0 && (
+							<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
+								{/* <WarningFill /> */}
+								&nbsp;{error?.assign_to}
+							</CustomText>
+						)}
 					</VStack>
 					<VStack w="full" alignItems="flex-start">
 						<CustomText>Hourly Cost</CustomText>
 						<InputGroup>
 							<InputLeftAddon children="$" />
-							<Input name="cost" onChange={inputChange} type="number" />
+							<Input
+								name="cost"
+								onChange={inputChange}
+								type="number"
+								isInvalid={error?.cost?.length ? true : false}
+							/>
 						</InputGroup>
+						{error?.cost?.length > 0 && (
+							<CustomText mt={pxToEm(8)} color="red.400" variant="sm">
+								{/* <WarningFill /> */}
+								&nbsp;{error?.cost}
+							</CustomText>
+						)}
 					</VStack>
 					{message === "Task created successfully" ? (
 						<Alert status="success">
