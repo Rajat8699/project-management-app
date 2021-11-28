@@ -3,6 +3,8 @@ import {
 	ADD_STATUS_SUCCESS,
 	CREATE_PROJECT_FAILED,
 	CREATE_PROJECT_SUCCESS,
+	EMPTY_HOME_REDUCER_FAILED,
+	EMPTY_HOME_REDUCER_SUCCESS,
 	GET_ALL_PROJECTS_FAILED,
 	GET_ALL_PROJECTS_SUCCESS,
 } from "../types";
@@ -43,6 +45,16 @@ const home = (state = initialState, action) => {
 			return {
 				...state,
 				statusAdd: action.error,
+			};
+		case EMPTY_HOME_REDUCER_SUCCESS:
+			return {
+				...state,
+				statusAdd: [],
+			};
+		case EMPTY_HOME_REDUCER_FAILED:
+			return {
+				...state,
+				statusAdd: [],
 			};
 		default:
 			return state;

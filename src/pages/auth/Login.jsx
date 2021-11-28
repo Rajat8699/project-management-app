@@ -39,29 +39,6 @@ const Login = (props) => {
 			});
 		}
 	}, [dispatch, loginResponse]);
-	// const { handleToast } = useCustomToast();
-	// const { isLoading, isSuccess, isError, message, role } =
-	// 	useSelector(selectLogin);
-	// useEffect(() => {
-	// 	if (isSuccess) {
-	// 		const role_based_url = {
-	// 			Admin: "/app/admin/dashboards",
-	// 			Staff: "/app/staff/dashboards",
-	// 			Manager: "/app/manager/dashboards",
-	// 		};
-	// 		props.history.push(role_based_url[role]);
-	// 		//dispatch(clearLoginState());
-	// 	}
-	// 	if (isError) {
-	// 		handleToast({
-	// 			duration: 10000,
-	// 			title: "Login",
-	// 			description: message,
-	// 			status: "error",
-	// 		});
-	// 		dispatch(clearLoginState());
-	// 	}
-	// }, [dispatch, handleToast, message, isSuccess, isError, role, props.history]);
 
 	const inputChange = (e) => {
 		setData({ ...data, [e.target.name]: e.target.value });
