@@ -130,7 +130,7 @@ const AddStatusModal = (props) => {
 							</CustomText>
 						)}
 					</VStack>
-					{resMessage === "Task created successfully" ? (
+					{resMessage === "Status updated successfully" ? (
 						<Alert status="success">
 							<AlertIcon />
 							{resMessage}

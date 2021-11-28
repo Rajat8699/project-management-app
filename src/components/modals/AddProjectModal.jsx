@@ -14,6 +14,7 @@ import CustomModal from "../common/Modal";
 import CustomText from "../common/Text";
 import microValidator from "micro-validator";
 import { pxToEm } from "../../utils/commonMethods";
+import { Alert, AlertIcon } from "@chakra-ui/alert";
 
 const AddProjectModal = (props) => {
 	const { isOpen, onClose } = props;
@@ -26,18 +27,19 @@ const AddProjectModal = (props) => {
 	const inputChange = (e) => {
 		setData({ ...data, [e.target.name]: e.target.value });
 	};
-
+	const [resMessage, setResMessage] = useState("");
 	useEffect(() => {
 		if (projectData?.status === 201 && projectData?.success) {
-			toast({
-				title: "Project created successfully",
-				status: "success",
-				isClosable: true,
-			});
-
+			setResMessage("Projected created successfully");
 			dispatch(getAllProjects());
-			dispatch(emptyHomeReducer());
 			onClose();
+		}
+		if (
+			projectData?.status &&
+			projectData?.status !== 201 &&
+			projectData?.success === false
+		) {
+			setResMessage("Something went wrong");
 		}
 	}, [dispatch, projectData?.status, projectData?.success]);
 
@@ -102,6 +104,17 @@ const AddProjectModal = (props) => {
 							</CustomText>
 						)}
 					</VStack>
+					{resMessage === "Project created successfully" ? (
+						<Alert status="success">
+							<AlertIcon />
+							{resMessage}
+						</Alert>
+					) : resMessage === "Something went wrong" ? (
+						<Alert status="error">
+							<AlertIcon />
+							{resMessage}
+						</Alert>
+					) : null}
 					<Button colorScheme="blue" type="submit" size="sm">
 						Add
 					</Button>
