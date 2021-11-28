@@ -11,10 +11,33 @@ import AddTaskModal from "../../components/modals/AddTaskModal";
 import AddStatusModal from "../../components/modals/AddStatusModal";
 import Header from "../../components/common/Header";
 import Layout from "../../components/Layout/Layout";
+import { getAllProjects } from "../../redux/actions/home";
 const Homepage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [isOpen, setOpen] = useState(false);
+	const { projects } = useSelector((state) => state?.home?.projectsList);
+	console.log(projects, "projex");
+
+	useEffect(() => {
+		dispatch(getAllProjects());
+	}, [dispatch]);
+	const projectRows = () => {
+		const projectsData = projects?.data?.data;
+		console.log(projectsData, "projects");
+		if (Array?.isArray(projectsData) && projectsData.length > 0) {
+			return (projectsData || []).map((project) => {
+				return {
+					project_name: project?.title,
+					description: project?.description,
+					tasks: project?.task?.length,
+					actions: <ActionComponent id={project?._id} />,
+				};
+			});
+		} else {
+			return [];
+		}
+	};
 
 	const ActionComponent = (props) => {
 		const [taskModal, setTaskModal] = useState(false);
@@ -66,15 +89,15 @@ const Homepage = () => {
 		{ Header: "Actions", accessor: "actions" },
 	];
 
-	const projectRows = [
-		{
-			project_name: "Project 1",
-			description: "Description",
-			tasks: "5",
-			status: "In Progress",
-			actions: <ActionComponent />,
-		},
-	];
+	// const projectRows = [
+	// 	{
+	// 		project_name: "Project 1",
+	// 		description: "Description",
+	// 		tasks: "5",
+	// 		status: "In Progress",
+	// 		actions: <ActionComponent />,
+	// 	},
+	// ];
 
 	const taskColumns = [
 		{ Header: "Task", accessor: "task" },
@@ -107,7 +130,7 @@ const Homepage = () => {
 					<AddProjectModal isOpen={isOpen} onClose={() => setOpen(false)} />
 				</Flex>
 				<Flex w="full" my="50px" overflow="scroll">
-					<CustomTable columns={projectColumns} data={projectRows} />
+					<CustomTable columns={projectColumns} data={projectRows()} />
 				</Flex>
 				<Center mt="50px">
 					<Heading>Tasks assigned to me</Heading>
